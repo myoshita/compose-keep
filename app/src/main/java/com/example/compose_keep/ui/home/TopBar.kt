@@ -16,8 +16,10 @@ import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Splitscreen
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -100,26 +102,21 @@ internal fun rememberTopBarState(topPadding: Dp = 0.dp) =
 internal class TopBarState(
     val topPadding: Dp,
 ) {
-    private var _topBarOffset = mutableStateOf(0f)
-    val topBarOffset: Float get() = _topBarOffset.value
+    var topBarOffset by mutableStateOf(0f)
+        private set
 
-    private var _toolbarHeight = mutableStateOf(0f)
-    var toolbarHeight: Float
-        set(value) {
-            _toolbarHeight.value = value
-        }
-        get() = _toolbarHeight.value
+    var toolbarHeight by mutableStateOf(0f)
 
     val nestedScrollConnection: NestedScrollConnection
         @Composable get() {
             val statusBarHeight = statusBarHeight()
             val paddingPx = with(LocalDensity.current) { topPadding.toPx() }
-            val topBarHeight = _toolbarHeight.value + statusBarHeight + paddingPx
+            val topBarHeight = toolbarHeight + statusBarHeight + paddingPx
             return object : NestedScrollConnection {
                 override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                     val delta = available.y
-                    val newOffset = _topBarOffset.value + delta
-                    _topBarOffset.value = newOffset.coerceIn(-topBarHeight, 0f)
+                    val newOffset = topBarOffset + delta
+                    topBarOffset = newOffset.coerceIn(-topBarHeight, 0f)
                     return super.onPreScroll(available, source)
                 }
             }

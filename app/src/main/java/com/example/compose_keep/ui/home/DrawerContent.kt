@@ -41,7 +41,8 @@ enum class DrawerItems(val icon: ImageVector, val title: String) {
 
 @Composable
 fun DrawerContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickDrawerItem: (DrawerItems) -> Unit = {},
 ) {
     Column(modifier = modifier) {
         Text(
@@ -53,7 +54,10 @@ fun DrawerContent(
             DrawerItem(
                 imageVector = it.icon,
                 text = it.title,
-                isSelected = it == DrawerItems.Memo // TODO
+                isSelected = it == DrawerItems.Memo, // TODO
+                onClick = {
+                    onClickDrawerItem(it)
+                }
             )
         }
     }
