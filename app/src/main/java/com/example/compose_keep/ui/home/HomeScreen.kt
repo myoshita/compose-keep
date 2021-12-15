@@ -8,6 +8,7 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.outlined.Add
@@ -65,11 +66,23 @@ fun HomeScreen(
             darkIcons = useDarkIcons,
         )
     }
+
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+    val topBarState = rememberTopBarState(topPadding = 8.dp)
+
     HomeScreen(
         memos = memos,
         displayType = displayType,
+        scaffoldState = scaffoldState,
+        topBarState = topBarState,
         onClickGridButton = homeViewModel::onClickGridButton,
         onClickAddFab = mainViewModel::onChangeTheme,
+        onClickOpenDrawer = {
+            scope.launch {
+                scaffoldState.drawerState.open()
+            }
+        }
     )
 }
 
@@ -77,13 +90,12 @@ fun HomeScreen(
 private fun HomeScreen(
     memos: List<Memo>,
     displayType: DisplayType,
+    scaffoldState: ScaffoldState,
+    topBarState: TopBarState,
     onClickGridButton: () -> Unit = {},
     onClickAddFab: () -> Unit = {},
+    onClickOpenDrawer: () -> Unit = {},
 ) {
-    val scaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
-    val topBarState = rememberTopBarState(topPadding = 8.dp)
-
     Scaffold(
         modifier = Modifier.nestedScroll(topBarState.nestedScrollConnection),
         scaffoldState = scaffoldState,
@@ -116,11 +128,7 @@ private fun HomeScreen(
                     state = topBarState,
                     modifier = Modifier.statusBarsPadding(),
                     displayType = displayType,
-                    onClickNavigationIcon = {
-                        scope.launch {
-                            scaffoldState.drawerState.open()
-                        }
-                    },
+                    onClickNavigationIcon = onClickOpenDrawer,
                     onClickGridButton = onClickGridButton
                 )
             }
@@ -203,10 +211,19 @@ private fun PreviewHomeScreen(
                 description = "description".repeat(Random.nextInt(1, 10))
             )
         }
+        val scaffoldState = rememberScaffoldState()
+        val scope = rememberCoroutineScope()
+        val topBarState = rememberTopBarState(topPadding = 8.dp)
+
         HomeScreen(
             memos = memos,
             displayType = DisplayType.Staggered,
+            scaffoldState = scaffoldState,
+            topBarState = topBarState,
             onClickGridButton = {},
+            onClickOpenDrawer = {
+                scope.launch { scaffoldState.drawerState.open() }
+            }
         )
     }
 }
