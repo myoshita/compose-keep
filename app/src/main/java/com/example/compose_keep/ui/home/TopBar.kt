@@ -33,10 +33,10 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.compose_keep.ui.common.IconImageButton
 import com.example.compose_keep.ui.memos.DisplayType
+import com.example.compose_keep.ui.theme.ComposekeepTheme
 import com.google.accompanist.insets.LocalWindowInsets
 import kotlin.math.roundToInt
 
-@Preview(showBackground = true)
 @Composable
 internal fun TopBar(
     modifier: Modifier = Modifier,
@@ -90,6 +90,14 @@ internal fun TopBar(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewTopBar() {
+    ComposekeepTheme {
+        TopBar()
     }
 }
 

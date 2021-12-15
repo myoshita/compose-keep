@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose_keep.MainViewModel
@@ -33,6 +34,7 @@ import com.example.compose_keep.ui.common.IconImageButton
 import com.example.compose_keep.ui.compose.LocalDarkTheme
 import com.example.compose_keep.ui.memos.DisplayType
 import com.example.compose_keep.ui.memos.Memos
+import com.example.compose_keep.ui.preview.DarkThemeProvider
 import com.example.compose_keep.ui.theme.BlueGray800
 import com.example.compose_keep.ui.theme.ComposekeepTheme
 import com.google.accompanist.insets.navigationBarsHeight
@@ -190,8 +192,10 @@ fun AddButton(
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewHomeScreen() {
-    ComposekeepTheme {
+private fun PreviewHomeScreen(
+    @PreviewParameter(DarkThemeProvider::class) darkTheme: Boolean,
+) {
+    ComposekeepTheme(darkTheme = darkTheme) {
         val memos = List(20) {
             Memo(
                 id = MemoId(it),
