@@ -39,7 +39,7 @@ fun Memos(
 ) {
     LazyColumn(
         contentPadding = contentPadding,
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = 4.dp),
     ) {
         item {
             Spacer(modifier = Modifier.statusBarsHeight(additional = 48.dp + 8.dp))
@@ -61,7 +61,7 @@ fun Memos(
                     StaggeredVerticalGrid(
                         maxColumnWidth = 220.dp,
                         modifier = modifier
-                            .padding(vertical = 8.dp)
+                            .padding(vertical = 16.dp)
                     ) {
                         memos.forEach {
                             MemoItem(
