@@ -19,6 +19,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -28,6 +29,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.PersonAddAlt
 import androidx.compose.material.icons.outlined.ManageAccounts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -38,6 +40,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.compose_keep.ui.common.Logo
+import com.example.compose_keep.ui.compose.ProvideDarkTheme
 import com.example.compose_keep.ui.preview.DarkThemeProvider
 import com.example.compose_keep.ui.theme.ComposekeepTheme
 
@@ -62,39 +66,42 @@ private fun AccountDialogBody(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        backgroundColor = MaterialTheme.colors.surface,
+        backgroundColor = MaterialTheme.colors.background,
         contentColor = MaterialTheme.colors.onBackground,
         modifier = modifier.padding(horizontal = 16.dp),
     ) {
-        Column {
-            TopBar(onClickClose = onClickClose)
-            AccountItem(
-                icon = Icons.Filled.AccountCircle,
-                name = "Name",
-                mailAddress = "example@example.com",
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            AccountManageButton(
-                onClick = {},
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            Divider()
-            MenuItem(
-                imageVector = Icons.Filled.PersonAddAlt,
-                description = "別のアカウントを追加",
-                onClick = {}
-            )
-            MenuItem(
-                imageVector = Icons.Outlined.ManageAccounts,
-                description = "このデバイスのアカウントを管理",
-                onClick = {}
-            )
-            Divider()
-            BottomMenu(
-                onClickPrivacyPolicy = { /*TODO*/ },
-                onClickTermsOfUse = { /*TODO*/ },
-            )
+        CompositionLocalProvider(LocalContentAlpha provides 1f) {
+            Column {
+                TopBar(onClickClose = onClickClose)
+                AccountItem(
+                    icon = Icons.Filled.AccountCircle,
+                    name = "Name",
+                    mailAddress = "example@example.com",
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                AccountManageButton(
+                    onClick = {},
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                Divider()
+                MenuItem(
+                    imageVector = Icons.Filled.PersonAddAlt,
+                    description = "別のアカウントを追加",
+                    onClick = {}
+                )
+                MenuItem(
+                    imageVector = Icons.Outlined.ManageAccounts,
+                    description = "このデバイスのアカウントを管理",
+                    onClick = {}
+                )
+                Divider()
+                BottomMenu(
+                    onClickPrivacyPolicy = { /*TODO*/ },
+                    onClickTermsOfUse = { /*TODO*/ },
+                )
+            }
         }
+
     }
 }
 
@@ -109,11 +116,12 @@ private fun AccountManageButton(
             modifier = modifier,
             border = BorderStroke(1.dp, MaterialTheme.colors.onSurface.copy(alpha = 0.12f)),
             shape = RoundedCornerShape(50),
+            color = MaterialTheme.colors.background,
             contentColor = MaterialTheme.colors.onBackground
         ) {
             Text(
                 text = "Googleアカウントを管理",
-                style = MaterialTheme.typography.subtitle2,
+                style = MaterialTheme.typography.button,
                 modifier = Modifier
                     .clickable { onClick() }
                     .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -139,10 +147,10 @@ private fun TopBar(
                 contentDescription = "close",
             )
         }
-        Text(
-            text = "Google",
-            style = MaterialTheme.typography.h5,
-            modifier = Modifier.align(Alignment.Center)
+        Logo(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .height(24.dp)
         )
     }
 }
@@ -172,7 +180,7 @@ private fun AccountItem(
         Column {
             Text(
                 text = name,
-                style = MaterialTheme.typography.subtitle2,
+                style = MaterialTheme.typography.subtitle1,
             )
             Text(
                 text = mailAddress,
@@ -252,7 +260,7 @@ private fun BottomMenuItem(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.subtitle2,
+            style = MaterialTheme.typography.caption,
             modifier = Modifier
                 .clickable { onClick() }
                 .padding(8.dp)
@@ -266,8 +274,10 @@ private fun PreviewAccountDialog(
     @PreviewParameter(DarkThemeProvider::class) darkTheme: Boolean
 ) {
     ComposekeepTheme(darkTheme = darkTheme) {
-        AccountDialogBody(
-            onClickClose = {}
-        )
+        ProvideDarkTheme(isDarkTheme = darkTheme) {
+            AccountDialogBody(
+                onClickClose = {}
+            )
+        }
     }
 }

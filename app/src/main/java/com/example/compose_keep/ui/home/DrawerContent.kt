@@ -4,9 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.Icon
@@ -27,6 +30,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.compose_keep.ui.common.Logo
 import com.example.compose_keep.ui.theme.ComposekeepTheme
 
 enum class DrawerItems(val icon: ImageVector, val title: String) {
@@ -45,11 +50,20 @@ fun DrawerContent(
     onClickDrawerItem: (DrawerItems) -> Unit = {},
 ) {
     Column(modifier = modifier) {
-        Text(
-            text = "Google Keep",
-            style = MaterialTheme.typography.h6,
-            modifier = Modifier.padding(16.dp)
-        )
+        Row(
+            modifier = Modifier.padding(16.dp),
+        ) {
+            Logo(
+                modifier = Modifier
+                    .height(24.dp)
+                    .align(Alignment.Bottom)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = "Keep",
+                fontSize = 22.sp,
+            )
+        }
         DrawerItems.values().forEach {
             DrawerItem(
                 imageVector = it.icon,
