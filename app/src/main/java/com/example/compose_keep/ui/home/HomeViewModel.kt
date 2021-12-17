@@ -20,7 +20,7 @@ class HomeViewModel : ViewModel() {
         _memos.value = List(20) {
             Memo(
                 id = MemoId(it),
-                title = "title $it",
+                title = "Title".repeat(Random.nextInt(0, 10)),
                 description = "description".repeat(Random.nextInt(1, 10))
             )
         }

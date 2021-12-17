@@ -16,6 +16,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -87,18 +88,27 @@ private fun MemoItem(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(10),
         border = BorderStroke(1.dp, strokeColor),
-        color = MaterialTheme.colors.background
+        color = MaterialTheme.colors.background,
+        contentColor = MaterialTheme.colors.onBackground
     ) {
         Column(
             modifier = Modifier
                 .clickable { onClick(memo) }
                 .padding(16.dp)
         ) {
-            Text(text = memo.title)
+            if (memo.title.isNotEmpty()) {
+                Text(
+                    text = memo.title,
+                    style = MaterialTheme.typography.body1,
+                    fontWeight = FontWeight.Medium
+                )
+            }
             Text(
                 text = memo.description,
+                style = MaterialTheme.typography.body1,
                 maxLines = 10,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colors.onSurface
             )
         }
     }

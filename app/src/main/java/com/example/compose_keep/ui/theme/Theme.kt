@@ -24,7 +24,7 @@ private val LightColorPalette = lightColors(
     background = BlueGray50,
     surface = Indigo50,
     onSurface = Gray700,
-    onBackground = BlueGray800,
+    onBackground = Gray900,
     onSecondary = Gray400,
 
     /* Other default colors to override

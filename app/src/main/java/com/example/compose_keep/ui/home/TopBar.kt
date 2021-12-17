@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -16,6 +17,7 @@ import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Splitscreen
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,12 +40,13 @@ import com.google.accompanist.insets.LocalWindowInsets
 import kotlin.math.roundToInt
 
 @Composable
-internal fun TopBar(
+fun TopBar(
     modifier: Modifier = Modifier,
     state: TopBarState = rememberTopBarState(),
     displayType: DisplayType = DisplayType.Staggered,
     onClickNavigationIcon: () -> Unit = {},
     onClickGridButton: () -> Unit = {},
+    onClickAccount: () -> Unit = {},
 ) {
     Surface(
         shape = CircleShape,
@@ -63,31 +66,34 @@ internal fun TopBar(
                 .height(48.dp)
                 .clickable { }
         ) {
-            Row {
-                IconImageButton(
-                    imageVector = Icons.Outlined.Menu,
-                    contentDescription = "Menu",
-                    onClick = onClickNavigationIcon
-                )
-                Text(
-                    text = "メモを検索",
-                    modifier = Modifier
-                        .weight(1f)
-                        .align(Alignment.CenterVertically),
-                )
-                val gridIcon = when (displayType) {
-                    DisplayType.Staggered -> Icons.Filled.GridView
-                    DisplayType.Linear -> Icons.Outlined.Splitscreen
+            CompositionLocalProvider(LocalContentAlpha provides 1f) {
+                Row {
+                    IconImageButton(
+                        imageVector = Icons.Outlined.Menu,
+                        contentDescription = "Menu",
+                        onClick = onClickNavigationIcon
+                    )
+                    Text(
+                        text = "メモを検索",
+                        modifier = Modifier
+                            .weight(1f)
+                            .align(Alignment.CenterVertically),
+                    )
+                    val gridIcon = when (displayType) {
+                        DisplayType.Staggered -> Icons.Outlined.Splitscreen
+                        DisplayType.Linear -> Icons.Filled.GridView
+                    }
+                    IconImageButton(
+                        imageVector = gridIcon,
+                        contentDescription = "Grid",
+                        onClick = onClickGridButton,
+                    )
+                    IconImageButton(
+                        imageVector = Icons.Filled.AccountCircle,
+                        contentDescription = "Account",
+                        onClick = onClickAccount,
+                    )
                 }
-                IconImageButton(
-                    imageVector = gridIcon,
-                    contentDescription = "Grid",
-                    onClick = onClickGridButton,
-                )
-                IconImageButton(
-                    imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = "Account",
-                )
             }
         }
     }
@@ -102,12 +108,12 @@ private fun PreviewTopBar() {
 }
 
 @Composable
-internal fun rememberTopBarState(topPadding: Dp = 0.dp) =
+fun rememberTopBarState(topPadding: Dp = 0.dp) =
     remember(topPadding) {
         TopBarState(topPadding)
     }
 
-internal class TopBarState(
+class TopBarState(
     val topPadding: Dp,
 ) {
     var topBarOffset by mutableStateOf(0f)

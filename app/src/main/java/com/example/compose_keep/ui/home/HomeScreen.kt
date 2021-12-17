@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
@@ -17,10 +18,14 @@ import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.MicNone
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -70,20 +75,29 @@ fun HomeScreen(
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val topBarState = rememberTopBarState(topPadding = 8.dp)
+    var showAccountDialog by remember { mutableStateOf(false) }
 
     HomeScreen(
         memos = memos,
         displayType = displayType,
         scaffoldState = scaffoldState,
         topBarState = topBarState,
+        showAccountDialog = showAccountDialog,
         onClickGridButton = homeViewModel::onClickGridButton,
         onClickAddFab = mainViewModel::onChangeTheme,
         onClickOpenDrawer = {
             scope.launch {
                 scaffoldState.drawerState.open()
             }
+        },
+        onClickAccount = {
+            showAccountDialog = true
+        },
+        accountDialogDismissRequest = {
+            showAccountDialog = false
         }
     )
+
 }
 
 @Composable
@@ -92,9 +106,12 @@ private fun HomeScreen(
     displayType: DisplayType,
     scaffoldState: ScaffoldState,
     topBarState: TopBarState,
+    showAccountDialog: Boolean,
     onClickGridButton: () -> Unit = {},
     onClickAddFab: () -> Unit = {},
     onClickOpenDrawer: () -> Unit = {},
+    onClickAccount: () -> Unit = {},
+    accountDialogDismissRequest: () -> Unit = {},
 ) {
     Scaffold(
         modifier = Modifier.nestedScroll(topBarState.nestedScrollConnection),
@@ -129,11 +146,18 @@ private fun HomeScreen(
                     modifier = Modifier.statusBarsPadding(),
                     displayType = displayType,
                     onClickNavigationIcon = onClickOpenDrawer,
-                    onClickGridButton = onClickGridButton
+                    onClickGridButton = onClickGridButton,
+                    onClickAccount = onClickAccount
                 )
             }
         }
     )
+
+    if (showAccountDialog) {
+        AccountDialog(
+            onDismissRequest = accountDialogDismissRequest
+        )
+    }
 }
 
 
@@ -151,30 +175,32 @@ private fun BottomBar(
         modifier = modifier.navigationBarsHeight(additional = 54.dp),
         cutoutShape = RoundedCornerShape(30)
     ) {
-        Row(modifier = Modifier.navigationBarsPadding()) {
-            IconImageButton(
-                imageVector = Icons.Outlined.CheckBox,
-                contentDescription = "check",
-                onClick = onClickCheckBox
-            )
+        CompositionLocalProvider(LocalContentAlpha provides 1f) {
+            Row(modifier = Modifier.navigationBarsPadding()) {
+                IconImageButton(
+                    imageVector = Icons.Outlined.CheckBox,
+                    contentDescription = "check",
+                    onClick = onClickCheckBox
+                )
 
-            IconImageButton(
-                Icons.Filled.Brush,
-                contentDescription = "draw",
-                onClick = onClickDraw
-            )
+                IconImageButton(
+                    Icons.Filled.Brush,
+                    contentDescription = "draw",
+                    onClick = onClickDraw
+                )
 
-            IconImageButton(
-                Icons.Outlined.MicNone,
-                contentDescription = "mic",
-                onClick = onClickMic
-            )
+                IconImageButton(
+                    Icons.Outlined.MicNone,
+                    contentDescription = "mic",
+                    onClick = onClickMic
+                )
 
-            IconImageButton(
-                Icons.Outlined.Image,
-                contentDescription = "image",
-                onClick = onClickImage
-            )
+                IconImageButton(
+                    Icons.Outlined.Image,
+                    contentDescription = "image",
+                    onClick = onClickImage
+                )
+            }
         }
     }
 }
@@ -207,22 +233,30 @@ private fun PreviewHomeScreen(
         val memos = List(20) {
             Memo(
                 id = MemoId(it),
-                title = "title $it",
-                description = "description".repeat(Random.nextInt(1, 10))
+                title = "Title $it",
+                description = "Description".repeat(Random.nextInt(1, 10))
             )
         }
         val scaffoldState = rememberScaffoldState()
         val scope = rememberCoroutineScope()
         val topBarState = rememberTopBarState(topPadding = 8.dp)
+        var showAccountDialog by remember { mutableStateOf(false) }
 
         HomeScreen(
             memos = memos,
             displayType = DisplayType.Staggered,
             scaffoldState = scaffoldState,
             topBarState = topBarState,
+            showAccountDialog = showAccountDialog,
             onClickGridButton = {},
             onClickOpenDrawer = {
                 scope.launch { scaffoldState.drawerState.open() }
+            },
+            onClickAccount = {
+                showAccountDialog = true
+            },
+            accountDialogDismissRequest = {
+                showAccountDialog = false
             }
         )
     }
