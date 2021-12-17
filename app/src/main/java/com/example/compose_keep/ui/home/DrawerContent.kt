@@ -10,8 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -96,11 +95,9 @@ private fun DrawerItem(
         MaterialTheme.colors.onBackground
     }
     Surface(
-        shape = CircleShape.copy(
-            topStart = CornerSize(0),
-            bottomStart = CornerSize(0),
-            topEnd = CornerSize(50),
-            bottomEnd = CornerSize(50)
+        shape = RoundedCornerShape(
+            topEndPercent = 50,
+            bottomEndPercent = 50
         ),
         color = backgroundColor,
         modifier = modifier
