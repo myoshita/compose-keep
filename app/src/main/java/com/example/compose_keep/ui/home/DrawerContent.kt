@@ -28,10 +28,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose_keep.ui.common.Logo
-import com.example.compose_keep.ui.theme.ComposekeepTheme
+import com.example.compose_keep.ui.preview.ThemeExecutor
+import com.example.compose_keep.ui.preview.ThemeProvider
 
 enum class DrawerItems(val icon: ImageVector, val title: String) {
     Memo(Icons.Outlined.Lightbulb, "メモ"),
@@ -129,8 +131,14 @@ private fun DrawerItem(
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewDrawerContent() {
-    ComposekeepTheme {
-        DrawerContent()
+private fun PreviewDrawerContent(
+    @PreviewParameter(ThemeProvider::class) themeExecutor: ThemeExecutor,
+) {
+    themeExecutor {
+        Surface(
+            color = MaterialTheme.colors.background
+        ) {
+            DrawerContent()
+        }
     }
 }
