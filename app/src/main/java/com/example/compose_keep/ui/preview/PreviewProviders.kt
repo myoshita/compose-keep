@@ -6,18 +6,18 @@ import com.example.compose_keep.ui.compose.ProvideDarkTheme
 import com.example.compose_keep.ui.theme.ComposekeepTheme
 import com.google.accompanist.insets.ProvideWindowInsets
 
-class ThemeProvider : PreviewParameterProvider<ThemeExecutor> {
-    override val values: Sequence<ThemeExecutor>
-        get() = sequenceOf(ThemeExecutorImpl(true), ThemeExecutorImpl((false)))
+class ThemeParameter : PreviewParameterProvider<ThemeProvider> {
+    override val values: Sequence<ThemeProvider>
+        get() = sequenceOf(ThemeProviderImpl(true), ThemeProviderImpl((false)))
 }
 
-interface ThemeExecutor {
+interface ThemeProvider {
     @Composable
     operator fun invoke(content: @Composable () -> Unit)
 }
 
 @JvmInline
-private value class ThemeExecutorImpl(private val darkTheme: Boolean) : ThemeExecutor {
+private value class ThemeProviderImpl(private val darkTheme: Boolean) : ThemeProvider {
     @Composable
     override operator fun invoke(content: @Composable () -> Unit) {
         ProvideWindowInsets {

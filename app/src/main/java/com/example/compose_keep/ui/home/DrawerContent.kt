@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose_keep.ui.common.Logo
-import com.example.compose_keep.ui.preview.ThemeExecutor
+import com.example.compose_keep.ui.preview.ThemeParameter
 import com.example.compose_keep.ui.preview.ThemeProvider
 
 enum class DrawerItems {
@@ -154,9 +154,9 @@ private fun DrawerItem(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewDrawerContent(
-    @PreviewParameter(ThemeProvider::class) themeExecutor: ThemeExecutor,
+    @PreviewParameter(ThemeParameter::class) themeProvider: ThemeProvider,
 ) {
-    themeExecutor {
+    themeProvider {
         Surface(
             color = MaterialTheme.colors.background
         ) {

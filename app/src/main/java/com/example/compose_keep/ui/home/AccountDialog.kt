@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.compose_keep.ui.common.Logo
-import com.example.compose_keep.ui.preview.ThemeExecutor
+import com.example.compose_keep.ui.preview.ThemeParameter
 import com.example.compose_keep.ui.preview.ThemeProvider
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -270,9 +270,9 @@ private fun BottomMenuItem(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewAccountDialog(
-    @PreviewParameter(ThemeProvider::class) themeExecutor: ThemeExecutor
+    @PreviewParameter(ThemeParameter::class) themeProvider: ThemeProvider
 ) {
-    themeExecutor {
+    themeProvider {
         AccountDialogBody(
             onClickClose = {}
         )

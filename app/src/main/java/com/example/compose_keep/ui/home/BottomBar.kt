@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.compose_keep.ui.common.IconImageButton
-import com.example.compose_keep.ui.preview.ThemeExecutor
+import com.example.compose_keep.ui.preview.ThemeParameter
 import com.example.compose_keep.ui.preview.ThemeProvider
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.navigationBarsPadding
@@ -66,9 +66,9 @@ fun BottomBar(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewBottomBar(
-    @PreviewParameter(ThemeProvider::class) themeExecutor: ThemeExecutor,
+    @PreviewParameter(ThemeParameter::class) themeProvider: ThemeProvider,
 ) {
-    themeExecutor {
+    themeProvider {
         BottomBar()
     }
 }

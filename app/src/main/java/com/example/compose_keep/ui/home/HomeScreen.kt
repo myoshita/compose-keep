@@ -31,7 +31,7 @@ import com.example.compose_keep.model.MemoId
 import com.example.compose_keep.ui.compose.LocalDarkTheme
 import com.example.compose_keep.ui.memos.DisplayType
 import com.example.compose_keep.ui.memos.Memos
-import com.example.compose_keep.ui.preview.ThemeExecutor
+import com.example.compose_keep.ui.preview.ThemeParameter
 import com.example.compose_keep.ui.preview.ThemeProvider
 import com.example.compose_keep.ui.theme.BlueGray800
 import com.google.accompanist.insets.navigationBarsPadding
@@ -176,9 +176,9 @@ fun AddButton(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewHomeScreen(
-    @PreviewParameter(ThemeProvider::class) themeExecutor: ThemeExecutor
+    @PreviewParameter(ThemeParameter::class) themeProvider: ThemeProvider
 ) {
-    themeExecutor {
+    themeProvider {
         val memos = List(20) {
             Memo(
                 id = MemoId(it),
