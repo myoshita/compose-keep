@@ -35,15 +35,37 @@ import com.example.compose_keep.ui.common.Logo
 import com.example.compose_keep.ui.preview.ThemeExecutor
 import com.example.compose_keep.ui.preview.ThemeProvider
 
-enum class DrawerItems(val icon: ImageVector, val title: String) {
-    Memo(Icons.Outlined.Lightbulb, "メモ"),
-    Reminder(Icons.Filled.NotificationsNone, "リマインダー"),
-    Create(Icons.Filled.Add, "新しいラベルを作成"),
-    Archive(Icons.Outlined.Archive, "アーカイブ"),
-    Delete(Icons.Outlined.DeleteOutline, "ゴミ箱"),
-    Settings(Icons.Outlined.Settings, "設定"),
-    HelpAndFeedback(Icons.Outlined.HelpOutline, "ヘルプとフィードバック")
+enum class DrawerItems {
+    Memo,
+    Reminder,
+    Create,
+    Archive,
+    Delete,
+    Settings,
+    HelpAndFeedback,
 }
+
+private val DrawerItems.icon: ImageVector
+    get() = when (this) {
+        DrawerItems.Memo -> Icons.Outlined.Lightbulb
+        DrawerItems.Reminder -> Icons.Filled.NotificationsNone
+        DrawerItems.Create -> Icons.Filled.Add
+        DrawerItems.Archive -> Icons.Outlined.Archive
+        DrawerItems.Delete -> Icons.Outlined.DeleteOutline
+        DrawerItems.Settings -> Icons.Outlined.Settings
+        DrawerItems.HelpAndFeedback -> Icons.Outlined.HelpOutline
+    }
+
+private val DrawerItems.title: String
+    get() = when (this) {
+        DrawerItems.Memo -> "メモ"
+        DrawerItems.Reminder -> "リマインダー"
+        DrawerItems.Create -> "新しいラベルを作成"
+        DrawerItems.Archive -> "アーカイブ"
+        DrawerItems.Delete -> "ゴミ箱"
+        DrawerItems.Settings -> "設定"
+        DrawerItems.HelpAndFeedback -> "ヘルプとフィードバック"
+    }
 
 @Composable
 fun DrawerContent(
