@@ -1,24 +1,16 @@
 package com.example.compose_keep.ui.home
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomAppBar
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.CheckBox
-import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.outlined.MicNone
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,14 +28,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose_keep.MainViewModel
 import com.example.compose_keep.model.Memo
 import com.example.compose_keep.model.MemoId
-import com.example.compose_keep.ui.common.IconImageButton
 import com.example.compose_keep.ui.compose.LocalDarkTheme
 import com.example.compose_keep.ui.memos.DisplayType
 import com.example.compose_keep.ui.memos.Memos
 import com.example.compose_keep.ui.preview.ThemeExecutor
 import com.example.compose_keep.ui.preview.ThemeProvider
 import com.example.compose_keep.ui.theme.BlueGray800
-import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -117,7 +107,11 @@ private fun HomeScreen(
         modifier = Modifier.nestedScroll(topBarState.nestedScrollConnection),
         scaffoldState = scaffoldState,
         bottomBar = {
-            BottomBar()
+            BottomBar(
+                onClickItem = {
+
+                }
+            )
         },
         drawerContent = {
             DrawerContent(
@@ -157,51 +151,6 @@ private fun HomeScreen(
         AccountDialog(
             onDismissRequest = accountDialogDismissRequest
         )
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-private fun BottomBar(
-    modifier: Modifier = Modifier,
-    onClickCheckBox: () -> Unit = {},
-    onClickDraw: () -> Unit = {},
-    onClickMic: () -> Unit = {},
-    onClickImage: () -> Unit = {},
-) {
-    BottomAppBar(
-        backgroundColor = MaterialTheme.colors.surface,
-        modifier = modifier.navigationBarsHeight(additional = 54.dp),
-        cutoutShape = RoundedCornerShape(30)
-    ) {
-        CompositionLocalProvider(LocalContentAlpha provides 1f) {
-            Row(modifier = Modifier.navigationBarsPadding()) {
-                IconImageButton(
-                    imageVector = Icons.Outlined.CheckBox,
-                    contentDescription = "check",
-                    onClick = onClickCheckBox
-                )
-
-                IconImageButton(
-                    Icons.Filled.Brush,
-                    contentDescription = "draw",
-                    onClick = onClickDraw
-                )
-
-                IconImageButton(
-                    Icons.Outlined.MicNone,
-                    contentDescription = "mic",
-                    onClick = onClickMic
-                )
-
-                IconImageButton(
-                    Icons.Outlined.Image,
-                    contentDescription = "image",
-                    onClick = onClickImage
-                )
-            }
-        }
     }
 }
 
